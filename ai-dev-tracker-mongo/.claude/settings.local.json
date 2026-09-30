@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx tsc *)",
+      "Bash(echo \"exit $?\")",
+      "Bash(pnpm -v)",
+      "Bash(pnpm import *)",
+      "Bash(rm -rf node_modules package-lock.json)",
+      "Bash(pnpm install *)",
+      "Bash(pkill -f \"next dev\")",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:3000/)"
+    ]
+  }
+}
