@@ -30,6 +30,28 @@ See [ai-dev-tracker-mongo/README.md](./ai-dev-tracker-mongo/README.md) for deplo
 
 ---
 
+### 🛠️ [DevOps Tracker](./devops-tracker-mongo/)
+
+The sister app to the AI tracker: a **multi-user roadmap** from Node.js developer to DevOps engineer, same UX with an indigo theme and its own database.
+
+- 7 stages, 20 modules, 92 steps (about 30 weeks): Linux, Git, networking, Docker, CI/CD, AWS + Terraform, Kubernetes + GitOps, observability, SRE, DevSecOps
+- Free resources, keywords, "Done when" checks and a project per module
+
+**Quick start:** `cd devops-tracker-mongo && pnpm install && pnpm seed && pnpm dev` (http://localhost:3001). See its [README](./devops-tracker-mongo/README.md).
+
+---
+
+### 🐍 [Python FastAPI Tracker](./python-fastapi-tracker-mongo/)
+
+A **multi-user roadmap** for a 2-year Node/Express developer going to a job-ready Python + FastAPI backend engineer. Skips the basics and maps everything to what you already know.
+
+- 6 stages, 19 modules, 95 steps (about 25 weeks): Python for JS devs, Pydantic, async, FastAPI, auth, PostgreSQL + SQLAlchemy, Redis/Celery, testing, Docker/deploy, system design, interview prep
+- Warm orange theme, its own database and port 3002
+
+**Quick start:** `cd python-fastapi-tracker-mongo && pnpm install && pnpm seed && pnpm dev` (http://localhost:3002). See its [README](./python-fastapi-tracker-mongo/README.md).
+
+---
+
 ## How this repo works
 
 - Each folder is a self-contained project

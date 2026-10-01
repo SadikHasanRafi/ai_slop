@@ -2,7 +2,14 @@
   "permissions": {
     "allow": [
       "Bash(git add *)",
-      "Bash(git commit -m 'docs: write README for ai_slop collection *)"
+      "Bash(git commit -m 'docs: write README for ai_slop collection *)",
+      "Bash(unzip -l file.zip)",
+      "Bash(grep -n \"roadmap\\\\|Roadmap\\\\|localStorage\\\\|stage-\\\\|#[0-9a-fA-F]\\\\{3,6\\\\}\" components/Tracker.tsx)",
+      "Bash(xargs kill -9)",
+      "Bash(pnpm dev *)",
+      "Bash(fuser -k 3002/tcp)",
+      "Bash(curl -s -o /dev/null -w \"Python FastAPI Tracker: %{http_code}\\\\n\" http://localhost:3002/)",
+      "Bash(curl -s http://localhost:3002/login)"
     ]
   }
 }
