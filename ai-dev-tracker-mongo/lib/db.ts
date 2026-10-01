@@ -14,6 +14,13 @@ export type ProgressDoc = {
   doneAt: Date;
 };
 
+export type NoteDoc = {
+  userId: ObjectId;
+  itemId: string;
+  text: string;
+  updatedAt: Date;
+};
+
 // Reuse one client across hot reloads (dev) and warm serverless invocations (Vercel).
 const globalForMongo = globalThis as unknown as {
   _mongoClient?: Promise<MongoClient>;
@@ -42,18 +49,21 @@ function client(): Promise<MongoClient> {
 export async function collections(): Promise<{
   users: Collection<UserDoc>;
   progress: Collection<ProgressDoc>;
+  notes: Collection<NoteDoc>;
 }> {
   const db = (await client()).db(process.env.MONGODB_DB || "ai_dev_tracker");
   const users = db.collection<UserDoc>("users");
   const progress = db.collection<ProgressDoc>("progress");
+  const notes = db.collection<NoteDoc>("notes");
 
   if (!globalForMongo._indexesReady) {
     globalForMongo._indexesReady = Promise.all([
       users.createIndex({ email: 1 }, { unique: true }),
       progress.createIndex({ userId: 1, itemId: 1 }, { unique: true }),
+      notes.createIndex({ userId: 1, itemId: 1 }, { unique: true }),
     ]).then(() => undefined);
   }
   await globalForMongo._indexesReady;
 
-  return { users, progress };
+  return { users, progress, notes };
 }

@@ -11,10 +11,12 @@ export default async function Home() {
   const session = await getSession();
   if (!session) redirect("/login");
 
-  const { progress } = await collections();
-  const rows = await progress
-    .find({ userId: new ObjectId(session.userId) }, { projection: { itemId: 1, _id: 0 } })
-    .toArray();
+  const { progress, notes } = await collections();
+  const userId = new ObjectId(session.userId);
+  const [rows, noteRows] = await Promise.all([
+    progress.find({ userId }, { projection: { itemId: 1, _id: 0 } }).toArray(),
+    notes.find({ userId }, { projection: { itemId: 1, text: 1, _id: 0 } }).toArray(),
+  ]);
 
   return (
     <main className="page">
@@ -28,7 +30,10 @@ export default async function Home() {
         </div>
       </header>
 
-      <Tracker initialDone={rows.map((r) => r.itemId)} />
+      <Tracker
+        initialDone={rows.map((r) => r.itemId)}
+        initialNotes={Object.fromEntries(noteRows.map((n) => [n.itemId, n.text]))}
+      />
     </main>
   );
 }

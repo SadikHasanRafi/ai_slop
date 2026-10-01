@@ -1,4 +1,4 @@
-/* Layout: one calm column. Summary bar on top, one "Up next" card, then phases. */
+/* Layout: one calm column. Summary bar on top, one "Up next" card, then collapsible modules. */
 :root {
   --bg: #f6f5f1;
   --surface: #ffffff;
@@ -53,7 +53,7 @@ body {
 }
 h1, h2 { text-wrap: balance; margin: 0; }
 button { font: inherit; color: inherit; }
-button:focus-visible, input:focus-visible, a:focus-visible {
+button:focus-visible, input:focus-visible, textarea:focus-visible, a:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
 }
@@ -180,14 +180,40 @@ a { color: var(--accent); }
 .next-text { margin: 0 0 14px; font-size: 1.02rem; font-weight: 550; }
 .next-done .next-text { margin: 0; }
 
-.phases { display: grid; gap: 28px; }
-.phase-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
-.phase h2 { font-size: 1.02rem; }
+.next-learn { margin: -6px 0 12px; font-size: 0.9rem; }
+.next-search { margin: 0 0 14px; display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+
+.phases { display: grid; gap: 22px; }
+.phase-toggle {
+  width: 100%;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  background: transparent;
+  border: 0;
+  padding: 4px 0;
+  text-align: left;
+  cursor: pointer;
+}
+.phase-head { flex: 1; display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.phase-title { font-size: 1.02rem; font-weight: 700; text-wrap: balance; }
 .phase-num { color: var(--muted); font-weight: 500; margin-right: 4px; }
+.chev { color: var(--muted); font-size: 1.1rem; width: 1ch; text-align: center; }
+
+.goal { margin: 0 0 10px; font-size: 0.92rem; }
+.node-tip {
+  margin: 0 0 10px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: var(--accent-soft);
+  font-size: 0.86rem;
+  color: var(--muted);
+}
+.node-tip strong { color: var(--text); }
 
 .list {
   list-style: none;
-  margin: 0;
+  margin: 12px 0 0;
   padding: 0;
   background: var(--surface);
   border: 1px solid var(--border);
@@ -196,27 +222,30 @@ a { color: var(--accent); }
 }
 .list li + li { border-top: 1px solid var(--border); }
 
-.row {
-  width: 100%;
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  text-align: left;
+.task { display: flex; align-items: flex-start; gap: 10px; padding: 12px 14px; }
+.check {
+  flex: none;
   background: transparent;
   border: 0;
-  padding: 13px 14px;
+  padding: 2px;
+  margin: -2px 0 0 -2px;
+  border-radius: 8px;
   cursor: pointer;
 }
-.row:hover { background: var(--accent-soft); }
-.row:disabled { cursor: progress; }
-.row-text { min-width: 0; font-size: 0.92rem; }
-.row.is-done .row-text { color: var(--done); text-decoration: line-through; }
+.check:hover .box { border-color: var(--accent); }
+.check:disabled { cursor: progress; }
+.task-body { min-width: 0; flex: 1; }
+.task-title { margin: 0; font-size: 0.95rem; font-weight: 600; }
+.task-learn { margin: 2px 0 0; font-size: 0.88rem; color: var(--muted); }
+.task.is-done .task-title { color: var(--done); text-decoration: line-through; }
+.task.is-done .task-learn,
+.task.is-done .chips,
+.task.is-done .searches { opacity: 0.6; }
 
 .box {
   flex: none;
   width: 20px;
   height: 20px;
-  margin-top: 1px;
   border-radius: 6px;
   border: 1.5px solid var(--done);
   display: grid;
@@ -224,17 +253,92 @@ a { color: var(--accent); }
   color: var(--accent-ink);
   transition: background 0.15s, border-color 0.15s;
 }
-.row.is-done .box { background: var(--accent); border-color: var(--accent); }
+.task.is-done .box { background: var(--accent); border-color: var(--accent); }
+
+.chips, .searches { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 8px; }
+.chips-label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-right: 2px;
+}
+.chip {
+  font-size: 0.78rem;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--track);
+}
+.search {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  padding: 3px 9px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  text-decoration: none;
+  color: var(--text);
+}
+.search:hover { border-color: var(--accent); }
+.search-on { font-size: 0.68rem; font-weight: 700; color: var(--muted); }
+.search-best { border-color: var(--accent); background: var(--accent-soft); }
+.search-badge {
+  font-size: 0.64rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--accent);
+}
+
+.link-btn {
+  background: transparent;
+  border: 0;
+  padding: 0;
+  color: var(--accent);
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.link-btn:hover { text-decoration: underline; }
+.note-add { margin-top: 10px; }
+.note { margin-top: 10px; }
+.note-text {
+  margin: 0 0 4px;
+  padding: 8px 10px;
+  border-left: 3px solid var(--accent);
+  background: var(--bg);
+  border-radius: 0 8px 8px 0;
+  font-size: 0.86rem;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.note-input {
+  width: 100%;
+  font: inherit;
+  font-size: 0.88rem;
+  color: var(--text);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 9px 10px;
+  resize: vertical;
+}
+.note-input:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+.note-actions { display: flex; align-items: center; gap: 8px; margin-top: 6px; flex-wrap: wrap; }
+.btn-small { padding: 6px 14px; font-size: 0.85rem; border-radius: 8px; }
+.note-error { color: var(--error); font-size: 0.82rem; }
 
 .project { margin-top: 10px; }
-.row-project {
+.task-project {
   background: var(--project-soft);
   border: 1px solid var(--project);
   border-radius: var(--radius);
 }
-.row-project:hover { background: var(--project-soft); filter: brightness(0.98); }
-.row-project .box { border-color: var(--project); }
-.row-project.is-done .box { background: var(--project); border-color: var(--project); }
+.task-project .box { border-color: var(--project); }
+.task-project.is-done .box { background: var(--project); border-color: var(--project); }
 .project-label {
   display: block;
   font-size: 0.72rem;
@@ -244,8 +348,6 @@ a { color: var(--accent); }
   color: var(--project);
   margin-bottom: 2px;
 }
-.project-text { display: block; }
-.row-project.is-done .project-label { text-decoration: none; }
 
 .rule {
   margin-top: 32px;

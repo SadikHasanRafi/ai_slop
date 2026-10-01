@@ -2,8 +2,13 @@
 
 A multi-user roadmap tracker for going from Node.js developer to training and
 fine-tuning AI models. Anyone can sign up with email + password and gets
-their own saved progress: an overall progress bar, a bar per phase, and an
+their own saved progress: an overall progress bar, a bar per module, and an
 "Up next" card showing the one step to do today.
+
+The roadmap is 16 modules over 21 weeks, written for someone with Node.js
+experience. Each task shows what to learn, keywords, and ready-made YouTube /
+web searches (the first one, marked "Best", is where to start). You can add a
+private note to any module, task or project.
 
 Next.js 14 (front end + back end in one app) + MongoDB.
 
@@ -15,9 +20,11 @@ Next.js 14 (front end + back end in one app) + MongoDB.
   cookie, valid 30 days. `middleware.ts` sends signed-out visitors to /login.
 - **Progress**: `progress` collection, one document per checked step per
   user. Every read and write is scoped to the signed-in user's id.
+- **Notes**: `notes` collection, one document per note per user. Saving an
+  empty note deletes it.
 - **Roadmap text**: `lib/roadmap.ts`. Keep each item's `id` the same when you
-  reword it; progress is saved by `id`.
-- Indexes (unique email, unique user+step) are created automatically on first
+  reword it; progress and notes are saved by `id`.
+- Indexes (unique email, unique user+step, unique user+note) are created automatically on first
   request. No setup script to run.
 
 ## Environment variables
