@@ -3,7 +3,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "AI Dev Tracker",
-  description: "A 14-week roadmap to training and fine-tuning AI models, with your progress saved.",
+  description: "A step-by-step roadmap from Node.js developer to fine-tuning LLMs, vision and object-detection models, with your progress saved.",
 };
 
 export const viewport: Viewport = { width: "device-width", initialScale: 1 };

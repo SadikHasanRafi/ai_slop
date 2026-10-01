@@ -1,4 +1,5 @@
 import Link from "next/link";
+import SubmitButton from "@/components/SubmitButton";
 import { signIn, signUp } from "./actions";
 
 export const metadata = { title: "Sign in · AI Dev Tracker" };
@@ -17,7 +18,7 @@ export default function LoginPage({
         <h1>{isSignup ? "Create your account" : "Welcome back"}</h1>
         <p className="muted">
           {isSignup
-            ? "Your own 14-week roadmap to training and fine-tuning models."
+            ? "Your own roadmap from Node.js to fine-tuning LLMs and vision models."
             : "Sign in to pick up where you left off."}
         </p>
 
@@ -46,9 +47,9 @@ export default function LoginPage({
             required
           />
 
-          <button type="submit" className="btn-primary">
+          <SubmitButton pendingText={isSignup ? "Creating account…" : "Signing in…"}>
             {isSignup ? "Create account" : "Sign in"}
-          </button>
+          </SubmitButton>
         </form>
 
         <p className="switch">

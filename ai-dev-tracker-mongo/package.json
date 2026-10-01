@@ -1,11 +1,12 @@
 {
   "name": "ai-dev-tracker",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "seed": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/seed.mjs"
   },
   "dependencies": {
     "bcryptjs": "3.0.3",

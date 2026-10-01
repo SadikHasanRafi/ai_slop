@@ -7,6 +7,9 @@ import { collections } from "@/lib/db";
 import { endSession, startSession } from "@/lib/session";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+// Compared against when the email is unknown, so sign-in takes the same time
+// either way and can't be used to find out which emails have accounts.
+const DUMMY_HASH = bcrypt.hashSync("not-a-real-password", 10);
 
 function read(formData: FormData) {
   return {
@@ -32,7 +35,8 @@ export async function signUp(formData: FormData) {
 
   let userId: string;
   try {
-    const res = await users.insertOne({ email, passwordHash, createdAt: new Date() });
+    const now = new Date();
+    const res = await users.insertOne({ email, passwordHash, createdAt: now, startedAt: now });
     userId = res.insertedId.toHexString();
   } catch (e) {
     if (e instanceof MongoServerError && e.code === 11000) {
@@ -51,7 +55,7 @@ export async function signIn(formData: FormData) {
 
   const { users } = await collections();
   const user = await users.findOne({ email });
-  const ok = user ? await bcrypt.compare(password, user.passwordHash) : false;
+  const ok = await bcrypt.compare(password, user?.passwordHash ?? DUMMY_HASH);
   if (!user || !ok) back("signin", "Wrong email or password.", email);
 
   await startSession({ userId: user._id!.toHexString(), email: user.email });
