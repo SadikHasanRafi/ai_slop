@@ -52,6 +52,17 @@ A **multi-user roadmap** for a 2-year Node/Express developer going to a job-read
 
 ---
 
+### 🌍 [Career Tracker](./career-tracker-mongo/)
+
+A **multi-user roadmap** for going from a 2-year Node.js/Angular developer to internationally employable as a remote full-stack engineer.
+
+- 7 stages, 24 modules, ~88 steps (16 weeks): reposition (resume/GitHub/LinkedIn), NestJS + PostgreSQL depth, a flagship AI project, Docker/CI/CD/cloud, interview readiness, open source + writing, and a systematic international job search
+- Warm stone + amber theme, its own database and port 3003
+
+**Quick start:** `cd career-tracker-mongo && pnpm install && pnpm seed && pnpm dev` (http://localhost:3003). See its [README](./career-tracker-mongo/README.md).
+
+---
+
 ## How this repo works
 
 - Each folder is a self-contained project
